@@ -1,13 +1,11 @@
 programa teste3
-      inteiro soma a b
-      logico sim
+      inteiro soma jesper b
+      logico y
+      c
+      d
+      sim
+      
+
       inicio
-           se sim entao
-           	soma<-10
-           	soma<-a*b
-           	a <- soma
- 			 senao
-           		soma<-a-a
-           		b<-a
-           fimse
-fimprograma
+         jesper<-V
+fimprograma 

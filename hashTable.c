@@ -126,7 +126,7 @@ int hash_set(hash_table_t *hashTable, char *str, int deslocamento, int tipo){
 	//Se o elemento ja existe...
     current_list = hash_get(hashTable, str);
     /* item already exists, don't insert it again. */
-    if (current_list != NULL) return ;
+    if (current_list != NULL) return -1;
     /* Insert into list */
     new_list->identificador = strdup(str);
     new_list->deslocamento = deslocamento;

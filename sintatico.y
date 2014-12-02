@@ -154,14 +154,12 @@ leitura
         T_IDENTIF 
           { 
             DESLOCA = busca_simbolo_hash(atomo,'D');
-            printf("DESLOCA AQUI - %d \n",DESLOCA );
             if(DESLOCA==-1){
                 ERRO ("Variavel [%s] nao declarada!", atomo);
             }else{
                 printf ("\tLEIA\n");
                 printf ("\tARZG\t%d\n", DESLOCA);
             }
-
 
           }
       ;
@@ -230,23 +228,22 @@ atribuicao
       : T_IDENTIF 
           { 
             DESLOCA = busca_simbolo_hash(atomo,'D');
+            TIPO = busca_simbolo_hash(atomo,'T');
             if(DESLOCA==-1){
                 ERRO ("Variavel [%s] nao declarada!", atomo);
             }else{
                 empilha(DESLOCA);
+                empilha(TIPO);
             }
           }
 
         T_ATRIB 
         expressao
           { 
-            int aux = desempilha();
-            empilha(aux);
-            //printf("DESEMPILOU %d\n",aux);
-            //printf("ATOMO HERE %s \n",atomo);
-            TIPO = busca_simbolo_hash(atomo,'T');
-            //printf("TIPO retornado %d",TIPO);
-            if(aux != TIPO){
+
+            int tipo1 = desempilha();
+            int tipo2 = desempilha();
+            if(tipo1!=tipo2){
               ERRO("Atribuicao com tipos incompativeis!");
             }
             printf ("\tARZG\t%d\n", desempilha()); 
@@ -257,7 +254,6 @@ expressao
       : 
        expressao T_VEZES expressao 
           {   
-
            tipos_compatives_inteiros();
            printf ("\tMULT\n"); }
       
@@ -306,9 +302,6 @@ termo
 
             DESLOCA = busca_simbolo_hash(atomo, 'D');
             TIPO = busca_simbolo_hash(atomo, 'T');
-            //printf("ATOMO %s\n",atomo );
-            //printf("TIPO - %d\n",TIPO );
-
             if(DESLOCA==-1){
                 ERRO ("Variavel [%s] nao declarada!", atomo);
             }else{
@@ -323,13 +316,16 @@ termo
           }
       | T_NUMERO
           { printf ("\tCRCT\t%s\n", atomo);
-           } 
+            empilha(INTEIRO); } 
       | T_V
-          { printf ("\tCRCT\t1\n"); } 
+          { printf ("\tCRCT\t1\n");
+            empilha(LOGICO); } 
       | T_F
-          { printf ("\tCRCT\t0\n"); } 
+          { printf ("\tCRCT\t0\n");
+            empilha(LOGICO); } 
       | T_NAO termo
-          { printf ("\tNEGA\n"); }
+          { printf ("\tNEGA\n"); 
+            empilha(LOGICO); }
       | T_ABRE expressao T_FECHA
       ;
 

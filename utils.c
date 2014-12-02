@@ -28,7 +28,7 @@ int DESLOCA;
 int TIPO;
 int aux_tipo;
 int aux; /* variavel auxiliar */
-int numLinha = 1; /* numero da linha no programa */
+int numLinha = 0; /* numero da linha no programa */
 char atomo[30]; /* nome de um identif. ou numero */
 typedef enum { INTEIRO, LOGICO} Tipo; 
 Tipo tipo;
@@ -81,6 +81,7 @@ int busca_simbolo(char *ident) {
     return i;
 }
 
+//deletar esta funcao e usar a get da hashTable
 int busca_simbolo_hash(char *ident, char tipo_desloca){
 
     list_t *current_list;
