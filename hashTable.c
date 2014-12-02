@@ -100,11 +100,13 @@ list_t* hash_get(hash_table_t *hashTable, char *str)
      * in the list.  If it is, return return a pointer to the list element.
      * If it isn't, the item isn't in the table, so return NULL.
      */
+        // printf("INDICE %d\n",hashValue ); 
+
     for(list = hashTable->table[hashValue]; list != NULL; list = list->next) {
         if (strcmp(str, list->identificador) == 0) return list;
 
-    } 
-    
+    }
+
     return NULL;
 }
 
@@ -124,30 +126,43 @@ int hash_set(hash_table_t *hashTable, char *str, int deslocamento, int tipo){
 	//Se o elemento ja existe...
     current_list = hash_get(hashTable, str);
     /* item already exists, don't insert it again. */
-    if (current_list != NULL) return 2;
+    if (current_list != NULL) return ;
     /* Insert into list */
     new_list->identificador = strdup(str);
     new_list->deslocamento = deslocamento;
     new_list->tipo = tipo;
-    printf("IDENTIFICADOR: %s\n",new_list->identificador);
-    printf("TIPO: %d\n",new_list->tipo);
-    printf("DESLOCAMENTO: %d\n\n", new_list->deslocamento);
+    //printf("IDENTIFICADOR: %s\n",new_list->identificador);
+    //printf("TIPO: %d\n",new_list->tipo);
+    //printf("DESLOCAMENTO: %d\n\n", new_list->deslocamento);
     new_list->next = hashTable->table[hashValue];
     hashTable->table[hashValue] = new_list;
 
     return 0;}
 
-/*int main( int argc, char **argv ) {
+/*
+int main( int argc, char **argv ) {
  	int size_of_table = 25000;
  	hash_table_t *my_table;
  	my_table = hash_create(size_of_table);
 	hash_set(my_table, "Gabi", 5, 1);
-    hash_set(my_table, "Gabizinha", 0,0);
-    int value = hash_function(my_table,"Gabi");
-    hash_set(my_table, "Gabi", 6, 1);
-    hash_set(my_table, "Gabi", 1,1);
+  hash_set(my_table, "Gabizinha", 0,0);
     
-	printf("return = %d \n",value);
+    
 	//printf("retorno da funcao %s\n",retorno ); 
+
+
+
+  list_t *current_list;
+
+  //Tentativa de alocar na memoria
+
+  //Se o elemento ja existe...
+    current_list = hash_get(my_table, "Gabi");
+    printf("IDENTIFICADOR: %s\n",current_list->identificador);
+    printf("TIPO: %d\n",current_list->tipo);
+    printf("DESLOCAMENTO: %d\n\n", current_list->deslocamento);
+
+
+
 	return 0;
 }*/

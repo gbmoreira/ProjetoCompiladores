@@ -24,6 +24,8 @@ int TOPO_PSEMA = 0; /* TOPO da pilha semantica */
 int ROTULO = 0; /* Proximo numero de rotulo */
 int CONTA_VARS = 0; /* Numero de variaveis */
 int POS_SIMB; /* Pos. na tabela de simbolos */
+int DESLOCA;
+int TIPO;
 int aux; /* variavel auxiliar */
 int numLinha = 1; /* numero da linha no programa */
 char atomo[30]; /* nome de um identif. ou numero */
@@ -76,6 +78,26 @@ int busca_simbolo(char *ident) {
     int i = TOPO_TSIMB - 1;
     for (; strcmp(TSIMB[i].id, ident) && i >= 0; i--);
     return i;
+}
+
+int busca_simbolo_hash(char *ident, char tipo_desloca){
+
+    list_t *current_list;
+    current_list = hash_get(my_table, ident);
+    if(current_list==NULL){
+        return -1;
+    }
+    //printf("ATOMO - %s\n",ident );
+    //printf("IDENTIFICADOR: %s\n",current_list->identificador);
+    //printf("TIPO: %d\n",current_list->tipo);
+    //printf("DESLOCAMENTO: %d\n\n", current_list->deslocamento);
+    if(tipo_desloca == 'T'){
+        return current_list->tipo;
+    }else{
+        return current_list->deslocamento;    
+    }
+    
+    printf("\n");
 }
 
 /*---------------------------------------------------------
@@ -134,9 +156,46 @@ int desempilha() {
    //exibeLista(&pilhaSem);
 }
 
+void existeSimbolo( char *ident, int inseriu){
+    if(inseriu == -1){
+        ERRO("Identificador [%s] duplicado", ident);
+    }
+}
+
 void inicializa(){
     my_table = hash_create(TAM_HASH);
 }
+
+void tipos_compatives_inteiros(){
+
+        int inteiro1 = desempilha();
+        int inteiro2 = desempilha();
+
+        if(inteiro1 == inteiro2){
+             printf("DO MESMO TIPO BABY\n");
+             empilha(INTEIRO);
+        }else
+            ERRO("Tipos incompativeis!");          
+}    
+
+void tipos_compatives_logicos(){
+
+        int logico1 = desempilha();
+        int logico2 = desempilha();
+
+        //printf("LOGICO1 %d\n",logico1 );
+        //printf("LOGICO2 %d\n",logico2 );
+        if(logico1 == logico2){
+             printf("DO MESMO TIPO BABY\n");
+             empilha(LOGICO);
+        }else
+            ERRO("Tipos incompativeis!");          
+}   
+
+
+
+
+
 
 
 

@@ -116,7 +116,8 @@ lista_variaveis
           {   insere_variavel (atomo, LOGICO);
               int tipo = desempilha();
               empilha(tipo); 
-              hash_set(my_table, atomo, CONTA_VARS, tipo);
+              int inseriu = hash_set(my_table, atomo, CONTA_VARS, tipo);
+              existeSimbolo(atomo, inseriu);
               CONTA_VARS++;
           }
 
@@ -124,7 +125,8 @@ lista_variaveis
           { insere_variavel (atomo, INTEIRO);  
             int tipo = desempilha();
             empilha(tipo); 
-            hash_set(my_table, atomo, CONTA_VARS, tipo);
+            int inseriu = hash_set(my_table, atomo, CONTA_VARS, tipo);
+            existeSimbolo(atomo, inseriu);
             CONTA_VARS++;
           }
 
@@ -151,16 +153,24 @@ leitura
       : T_LEIA  
         T_IDENTIF 
           { 
-            POS_SIMB = busca_simbolo (atomo);
-            printf("\n\nPOS_SIMB= %d\n", POS_SIMB);
-            if (POS_SIMB == -1)
+            //POS_SIMB = busca_simbolo (atomo);
+            /*if (POS_SIMB == -1)
                 ERRO ("Variavel [%s] nao declarada!",
                            atomo);
-	    else {
+	            else {
                 printf ("\tLEIA\n");
                 printf ("\tARZG\t%d\n", 
                         TSIMB[POS_SIMB].desloca);
+            }*/
+            DESLOCA = busca_simbolo_hash(atomo,'D');
+            if(DESLOCA==-1){
+                ERRO ("Variavel [%s] nao declarada!", atomo);
+            }else{
+                printf ("\tLEIA\n");
+                printf ("\tARZG\t%d\n", DESLOCA);
             }
+
+
           }
       ;
 
@@ -215,82 +225,70 @@ selecao
 atribuicao
       : T_IDENTIF 
           { 
-            POS_SIMB = busca_simbolo (atomo);
-            if (POS_SIMB == -1)
-                ERRO ("Variavel [%s] nao declarada!",
-                      atomo);
-	    else
-                empilha (TSIMB[POS_SIMB].desloca);
-                printf("DESLOCA %d",TSIMB[POS_SIMB].desloca);
+            DESLOCA = busca_simbolo_hash(atomo,'D');
+            TIPO = busca_simbolo_hash(atomo,'T');
+            if(DESLOCA==-1){
+                ERRO ("Variavel [%s] nao declarada!", atomo);
+            }else{
+                empilha(DESLOCA);
+            }
           }
+
         T_ATRIB 
+        {empilha(TIPO);}
         expressao
-          { printf ("\tARZG\t%d\n", desempilha()); }
+          { 
+            int c = desempilha();
+            if(c != TIPO){
+              ERRO("SSABOSTA");
+            }
+            printf ("\tARZG\t%d\n", desempilha()); 
+          }
       ;
 
 expressao
       : 
        expressao T_VEZES expressao 
-      { 
+          {   
 
-          printf ("\tMULT\n"); 
-      }
+           tipos_compatives_inteiros();
+           printf ("\tMULT\n"); }
       
       | expressao T_DIV expressao
           {         
-  
-          printf ("\tDIVI\n"); }
+            tipos_compatives_inteiros();
+            printf ("\tDIVI\n"); }
 
       | expressao T_MAIS expressao
-          {        
-  
-            int valor1 = desempilha();
-            int valor2 = desempilha();
-
-        printf("\nValor1 = %d \nValor2 = %d",valor1,valor2);
-
-            if(!valor1==valor2){
-              ERRO ("\nVariaveis nao sao compativeis");
-            }else{
-                        printf("\nSao Compativeis");
-
-              empilha(INTEIRO);
-            }
+          {  
+            tipos_compatives_inteiros();
             printf ("\tSOMA\n"); }
 
       | expressao T_MENOS expressao
-          {        
-      
-            int valor1 = desempilha();
-            int valor2 = desempilha();
-
-
-            if(!valor1==valor2){
-              ERRO ("\nVariaveis nao sao compativeis");
-            }else{
-              empilha(INTEIRO);
-            }
+          {  
+            tipos_compatives_inteiros();
             printf ("\tSUBT\n"); }
 
       | expressao T_MAIOR expressao
-          {        
-           
-        printf ("\tCMMA\n"); }
+          { 
+            tipos_compatives_logicos();       
+            printf ("\tCMMA\n"); }
       | expressao T_MENOR expressao
           {         
-           
-        printf ("\tCMME\n"); }
+            tipos_compatives_logicos();       
+            printf ("\tCMME\n"); }
       | expressao T_IGUAL expressao
           {         
-        printf ("\tCMIG\n"); }
+            tipos_compatives_logicos();       
+            printf ("\tCMIG\n"); }
       | expressao T_E expressao
           {        
-           
-        printf ("\tCONJ\n"); }
+            tipos_compatives_logicos();       
+            printf ("\tCONJ\n"); }
       | expressao T_OU expressao
           {        
-            
-         printf ("\tDISJ\n"); }
+            tipos_compatives_logicos();       
+            printf ("\tDISJ\n"); }
       | termo
         
       ;
@@ -298,25 +296,23 @@ expressao
 termo
       : T_IDENTIF
           {
-            POS_SIMB = busca_simbolo (atomo);
-            if (POS_SIMB == -1)
-               ERRO ("Variavel [%s] nao declarada!",
-                         atomo);
-	    else {
-               printf ("\tCRVG\t%d\n", 
-                       TSIMB[POS_SIMB].desloca);
-                       {
-          if(tipo==1){
-            empilha(LOGICO);
-            printf("entrou aqui - logico");
-          }else{
-            empilha(INTEIRO);
-            printf("entrou aqui - inteiro");
-          }
 
-        }
+            DESLOCA = busca_simbolo_hash(atomo, 'D');
+            TIPO = busca_simbolo_hash(atomo, 'T');
+            //printf("ATOMO %s\n",atomo );
+            //printf("TIPO - %d\n",TIPO );
 
-            }   
+            if(DESLOCA==-1){
+                ERRO ("Variavel [%s] nao declarada!", atomo);
+            }else{
+                  printf ("\tCRVG\t%d\n", DESLOCA);
+                  
+                  if(TIPO){
+                      empilha(LOGICO);
+                  }else{
+                      empilha(INTEIRO);
+                  }
+            }
           }
       | T_NUMERO
           { printf ("\tCRCT\t%s\n", atomo);

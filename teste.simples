@@ -1,11 +1,14 @@
 programa nomedoprogramaquebosta
 	logico a b 
 
-	inteiro c d  
+	inteiro  c f
 
 inicio
+	
 
-	a<-a+c
+    a<-V
+    b<-F
+	a<-a e c 
+	c<- c+f
 
 fimprograma
-	
