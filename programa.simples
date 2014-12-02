@@ -1,0 +1,13 @@
+programa teste
+
+inteiro a b 
+
+inicio 
+  leia a 
+  leia b
+  enquanto nao (a > b) faca
+  	escreva a 
+	a<- a +1
+  fimenquanto
+
+fimprograma

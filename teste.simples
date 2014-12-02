@@ -1,0 +1,11 @@
+programa nomedoprogramaquebosta
+	logico a b 
+
+	inteiro c d  
+
+inicio
+
+	a<-a+c
+
+fimprograma
+	
