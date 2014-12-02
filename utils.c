@@ -26,6 +26,7 @@ int CONTA_VARS = 0; /* Numero de variaveis */
 int POS_SIMB; /* Pos. na tabela de simbolos */
 int DESLOCA;
 int TIPO;
+int aux_tipo;
 int aux; /* variavel auxiliar */
 int numLinha = 1; /* numero da linha no programa */
 char atomo[30]; /* nome de um identif. ou numero */
@@ -138,8 +139,7 @@ void empilha(int n) {
      }
      PSEMA[TOPO_PSEMA++] = n;*/
     insere_fim(&pilhaSem, n);
-    //printf("EMPILHA\n");
-   //exibeLista(&pilhaSem);
+    //exibeLista(&pilhaSem);
 }
 
 int desempilha() {
@@ -147,13 +147,14 @@ int desempilha() {
         ERRO ("UNDERFLOW - Pilha Semantica");
      }
      return PSEMA[--TOPO_PSEMA];*/
-    if (!listIsEmpty(&pilhaSem))
+    if (!listIsEmpty(&pilhaSem)){
+        //exibeLista(&pilhaSem);
         return remove_fim(&pilhaSem);
-    else {
+    }else {
         ERRO("UNDERFLOW - Pilha Semantica");
     }
-    //printf("DESEMPILHA\n");
-   //exibeLista(&pilhaSem);
+
+
 }
 
 void existeSimbolo( char *ident, int inseriu){
@@ -172,7 +173,6 @@ void tipos_compatives_inteiros(){
         int inteiro2 = desempilha();
 
         if(inteiro1 == inteiro2){
-             printf("DO MESMO TIPO BABY\n");
              empilha(INTEIRO);
         }else
             ERRO("Tipos incompativeis!");          
@@ -183,10 +183,7 @@ void tipos_compatives_logicos(){
         int logico1 = desempilha();
         int logico2 = desempilha();
 
-        //printf("LOGICO1 %d\n",logico1 );
-        //printf("LOGICO2 %d\n",logico2 );
         if(logico1 == logico2){
-             printf("DO MESMO TIPO BABY\n");
              empilha(LOGICO);
         }else
             ERRO("Tipos incompativeis!");          

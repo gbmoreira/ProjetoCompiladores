@@ -1,14 +1,13 @@
-programa nomedoprogramaquebosta
-	logico a b 
-
-	inteiro  c f
-
-inicio
-	
-
-    a<-V
-    b<-F
-	a<-a e c 
-	c<- c+f
-
+programa teste3
+      inteiro soma a b
+      logico sim
+      inicio
+           se sim entao
+           	soma<-10
+           	soma<-a*b
+           	a <- soma
+ 			 senao
+           		soma<-a-a
+           		b<-a
+           fimse
 fimprograma

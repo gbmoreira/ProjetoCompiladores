@@ -113,7 +113,7 @@ tipo
 lista_variaveis
       : lista_variaveis 
         T_IDENTIF 
-          {   insere_variavel (atomo, LOGICO);
+          {   
               int tipo = desempilha();
               empilha(tipo); 
               int inseriu = hash_set(my_table, atomo, CONTA_VARS, tipo);
@@ -122,7 +122,7 @@ lista_variaveis
           }
 
       | T_IDENTIF
-          { insere_variavel (atomo, INTEIRO);  
+          {  
             int tipo = desempilha();
             empilha(tipo); 
             int inseriu = hash_set(my_table, atomo, CONTA_VARS, tipo);
@@ -153,16 +153,8 @@ leitura
       : T_LEIA  
         T_IDENTIF 
           { 
-            //POS_SIMB = busca_simbolo (atomo);
-            /*if (POS_SIMB == -1)
-                ERRO ("Variavel [%s] nao declarada!",
-                           atomo);
-	            else {
-                printf ("\tLEIA\n");
-                printf ("\tARZG\t%d\n", 
-                        TSIMB[POS_SIMB].desloca);
-            }*/
             DESLOCA = busca_simbolo_hash(atomo,'D');
+            printf("DESLOCA AQUI - %d \n",DESLOCA );
             if(DESLOCA==-1){
                 ERRO ("Variavel [%s] nao declarada!", atomo);
             }else{
@@ -181,9 +173,14 @@ escrita
 
 repeticao
       : T_ENQTO
-           { 
-             printf ("L%d\tNADA\n", ++ROTULO);
-             empilha (ROTULO);
+           {
+             TIPO = desempilha();
+             if(TIPO==1){ // se for logico
+                printf ("L%d\tNADA\n", ++ROTULO);
+                empilha (ROTULO);
+             }else{ //se for
+                ERRO("Condicao precisa ser do tipo logico!");
+             }  
            } 
         expressao 
         T_FACA 
@@ -204,8 +201,15 @@ selecao
       : T_SE 
         expressao 
            {
-             printf ("\tDSVF\tL%d\n", ++ROTULO); 
-             empilha (ROTULO);
+
+             TIPO = desempilha();
+             if(TIPO==1){
+                printf ("\tDSVF\tL%d\n", ++ROTULO); 
+                empilha (ROTULO);
+             }else{
+                ERRO("Condicao precisa ser do tipo logico!");
+             } 
+             
            }  
         T_ENTAO 
         lista_comandos 
@@ -217,7 +221,7 @@ selecao
            }
         lista_comandos 
         T_FIMSE
-           { 
+           {
              printf ("L%d\tNADA\n", desempilha());    
            }
       ;
@@ -226,7 +230,6 @@ atribuicao
       : T_IDENTIF 
           { 
             DESLOCA = busca_simbolo_hash(atomo,'D');
-            TIPO = busca_simbolo_hash(atomo,'T');
             if(DESLOCA==-1){
                 ERRO ("Variavel [%s] nao declarada!", atomo);
             }else{
@@ -235,12 +238,16 @@ atribuicao
           }
 
         T_ATRIB 
-        {empilha(TIPO);}
         expressao
           { 
-            int c = desempilha();
-            if(c != TIPO){
-              ERRO("SSABOSTA");
+            int aux = desempilha();
+            empilha(aux);
+            //printf("DESEMPILOU %d\n",aux);
+            //printf("ATOMO HERE %s \n",atomo);
+            TIPO = busca_simbolo_hash(atomo,'T');
+            //printf("TIPO retornado %d",TIPO);
+            if(aux != TIPO){
+              ERRO("Atribuicao com tipos incompativeis!");
             }
             printf ("\tARZG\t%d\n", desempilha()); 
           }
