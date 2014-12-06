@@ -1,3 +1,13 @@
+/*+-------------------------------------------------------------+
+ | UNIFAL – Universidade Federal de Alfenas.                    |
+ | BACHARELADO EM CIENCIA DA COMPUTACAO.                        |
+ | Atividade.: 1                                                |
+ | Disciplina: Compiladores                                     |
+ | Professor.: Luiz Eduardo da Silva                            |
+ | Aluno(s)..: Gabriela Moreira da Silva - 2011.1.08.038        |
+ | Jesper Bolling - 2014.1.08.039                               |
+ | Data......: 07/12/2014                                       |
+ +-------------------------------------------------------------+*/
 %{
 
 #include "sintatico.h"

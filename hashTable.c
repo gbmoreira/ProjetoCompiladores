@@ -1,31 +1,18 @@
+/*+-------------------------------------------------------------+
+ | UNIFAL – Universidade Federal de Alfenas.                    |
+ | BACHARELADO EM CIENCIA DA COMPUTACAO.                        |
+ | Atividade.: 1                                                |
+ | Disciplina: Compiladores                                     |
+ | Professor.: Luiz Eduardo da Silva                            |
+ | Aluno(s)..: Gabriela Moreira da Silva - 2011.1.08.038        |
+ | Jesper Bolling - 2014.1.08.039                               |
+ | Data......: 07/12/2014                                       |
+ +-------------------------------------------------------------+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
-//#include "hashTable.h"
-
-/*+-----------------------------------------+
-  |     ESTRUTURA DA TABELA HASH            |
-  +-----------------------------------------+
-*/
-
-//elemento
-struct _list_t_ {
-    char *identificador;
-    int deslocamento;
-    int tipo;
-    struct _list_t_ *next;
-};
- 
-typedef struct _list_t_ list_t;
- 
- //tabela
-struct _hash_table_t_ {
-    int size;
-    struct _list_t_ **table;    
-};
- 
-typedef struct _hash_table_t_ hash_table_t;
+#include "hashTable.h"
 
 /* Funcao para criar a hash, retorna uma hash. */
 hash_table_t* hash_create(int size){
@@ -87,9 +74,9 @@ unsigned int hash_function(hash_table_t *hashTable, char *str){
 /* Funcao para buscar na tabela hash.
  *
  * No trabalho eh necessario retornar tanto o DESLOCAMENTO, quanto
- * o tipo, depende de onde for chamado no sintatico.y
- * Para isso criei um campo onde sera informado o que ele deseja
- *  que retorne -  
+ * o tipo, depende de onde for chamado no sintatico.y, por isso 
+ * sera retornado o struct e depois no utils, retornaremos o que foi 
+ * desejado. 
 */
 list_t* hash_get(hash_table_t *hashTable, char *str)
 {
@@ -145,12 +132,8 @@ int main( int argc, char **argv ) {
  	hash_table_t *my_table;
  	my_table = hash_create(size_of_table);
 	hash_set(my_table, "Gabi", 5, 1);
-  hash_set(my_table, "Gabizinha", 0,0);
-    
-    
+  hash_set(my_table, "Gabizinha", 0,0);    
 	//printf("retorno da funcao %s\n",retorno ); 
-
-
 
   list_t *current_list;
 
@@ -161,8 +144,5 @@ int main( int argc, char **argv ) {
     printf("IDENTIFICADOR: %s\n",current_list->identificador);
     printf("TIPO: %d\n",current_list->tipo);
     printf("DESLOCAMENTO: %d\n\n", current_list->deslocamento);
-
-
-
 	return 0;
 }*/

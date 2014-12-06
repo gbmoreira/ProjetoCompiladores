@@ -62,7 +62,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 7 "sintatico.y" /* yacc.c:339  */
+#line 12 "sintatico.y" /* yacc.c:339  */
 
 #include <stdio.h>
 #include <string.h>
@@ -457,11 +457,11 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    65,    65,    72,    75,    64,    82,    85,    87,    91,
-      95,   100,   106,   114,   124,   135,   137,   141,   142,   143,
-     144,   148,   149,   153,   168,   174,   185,   173,   201,   215,
-     199,   229,   228,   255,   260,   265,   270,   275,   279,   283,
-     287,   291,   295,   300,   317,   320,   323,   326,   329
+       0,    70,    70,    77,    80,    69,    87,    90,    92,    96,
+     100,   105,   111,   119,   129,   140,   142,   146,   147,   148,
+     149,   153,   154,   158,   173,   179,   190,   178,   206,   220,
+     204,   234,   233,   260,   265,   270,   275,   280,   284,   288,
+     292,   296,   300,   305,   322,   325,   328,   331,   334
 };
 #endif
 
@@ -1292,7 +1292,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 65 "sintatico.y" /* yacc.c:1646  */
+#line 70 "sintatico.y" /* yacc.c:1646  */
     { 
         printf ("\tINPP\n");
         inicializa(); //Cria hash
@@ -1302,25 +1302,25 @@ yyreduce:
     break;
 
   case 3:
-#line 72 "sintatico.y" /* yacc.c:1646  */
+#line 77 "sintatico.y" /* yacc.c:1646  */
     { printf ("\tAMEM\t%d\n", CONTA_VARS);}
 #line 1308 "sintatico.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 75 "sintatico.y" /* yacc.c:1646  */
+#line 80 "sintatico.y" /* yacc.c:1646  */
     { printf ("\tDMEM\t%d\n", CONTA_VARS);}
 #line 1314 "sintatico.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 78 "sintatico.y" /* yacc.c:1646  */
+#line 83 "sintatico.y" /* yacc.c:1646  */
     { printf ("\tFIMP\n"); }
 #line 1320 "sintatico.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 101 "sintatico.y" /* yacc.c:1646  */
+#line 106 "sintatico.y" /* yacc.c:1646  */
     { 
           tipo = LOGICO;        
           empilha (tipo); //Item 3 do pdf - OK
@@ -1329,7 +1329,7 @@ yyreduce:
     break;
 
   case 12:
-#line 107 "sintatico.y" /* yacc.c:1646  */
+#line 112 "sintatico.y" /* yacc.c:1646  */
     { 
           tipo = INTEIRO;
           empilha (tipo); //Item 2 do pdf - OK
@@ -1338,7 +1338,7 @@ yyreduce:
     break;
 
   case 13:
-#line 116 "sintatico.y" /* yacc.c:1646  */
+#line 121 "sintatico.y" /* yacc.c:1646  */
     {   
               int tipo = desempilha();
               empilha(tipo); 
@@ -1350,7 +1350,7 @@ yyreduce:
     break;
 
   case 14:
-#line 125 "sintatico.y" /* yacc.c:1646  */
+#line 130 "sintatico.y" /* yacc.c:1646  */
     {  
             int tipo = desempilha();
             empilha(tipo); 
@@ -1362,7 +1362,7 @@ yyreduce:
     break;
 
   case 23:
-#line 155 "sintatico.y" /* yacc.c:1646  */
+#line 160 "sintatico.y" /* yacc.c:1646  */
     { 
             DESLOCA = busca_simbolo_hash(atomo,'D');
             if(DESLOCA==-1){
@@ -1377,13 +1377,13 @@ yyreduce:
     break;
 
   case 24:
-#line 169 "sintatico.y" /* yacc.c:1646  */
+#line 174 "sintatico.y" /* yacc.c:1646  */
     { printf ("\tESCR\n"); }
 #line 1383 "sintatico.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 174 "sintatico.y" /* yacc.c:1646  */
+#line 179 "sintatico.y" /* yacc.c:1646  */
     {
              TIPO = desempilha();
              if(TIPO==1){ // se for logico
@@ -1397,7 +1397,7 @@ yyreduce:
     break;
 
   case 26:
-#line 185 "sintatico.y" /* yacc.c:1646  */
+#line 190 "sintatico.y" /* yacc.c:1646  */
     {
              printf ("\tDSVF\tL%d\n",++ROTULO);
              empilha (ROTULO);
@@ -1406,7 +1406,7 @@ yyreduce:
     break;
 
   case 27:
-#line 191 "sintatico.y" /* yacc.c:1646  */
+#line 196 "sintatico.y" /* yacc.c:1646  */
     {
              aux = desempilha();
              printf ("\tDSVS\tL%d\n", desempilha()); 
@@ -1416,7 +1416,7 @@ yyreduce:
     break;
 
   case 28:
-#line 201 "sintatico.y" /* yacc.c:1646  */
+#line 206 "sintatico.y" /* yacc.c:1646  */
     {
 
              TIPO = desempilha();
@@ -1432,7 +1432,7 @@ yyreduce:
     break;
 
   case 29:
-#line 215 "sintatico.y" /* yacc.c:1646  */
+#line 220 "sintatico.y" /* yacc.c:1646  */
     {
              printf ("\tDSVS\tL%d\n", ++ROTULO);
              printf ("L%d\tNADA\n", desempilha()); 
@@ -1442,7 +1442,7 @@ yyreduce:
     break;
 
   case 30:
-#line 222 "sintatico.y" /* yacc.c:1646  */
+#line 227 "sintatico.y" /* yacc.c:1646  */
     {
              printf ("L%d\tNADA\n", desempilha());    
            }
@@ -1450,7 +1450,7 @@ yyreduce:
     break;
 
   case 31:
-#line 229 "sintatico.y" /* yacc.c:1646  */
+#line 234 "sintatico.y" /* yacc.c:1646  */
     { 
             DESLOCA = busca_simbolo_hash(atomo,'D');
             TIPO = busca_simbolo_hash(atomo,'T');
@@ -1465,7 +1465,7 @@ yyreduce:
     break;
 
   case 32:
-#line 242 "sintatico.y" /* yacc.c:1646  */
+#line 247 "sintatico.y" /* yacc.c:1646  */
     { 
 
             int tipo1 = desempilha();
@@ -1479,7 +1479,7 @@ yyreduce:
     break;
 
   case 33:
-#line 256 "sintatico.y" /* yacc.c:1646  */
+#line 261 "sintatico.y" /* yacc.c:1646  */
     {   
            tipos_compatives_inteiros();
            printf ("\tMULT\n"); }
@@ -1487,7 +1487,7 @@ yyreduce:
     break;
 
   case 34:
-#line 261 "sintatico.y" /* yacc.c:1646  */
+#line 266 "sintatico.y" /* yacc.c:1646  */
     {         
             tipos_compatives_inteiros();
             printf ("\tDIVI\n"); }
@@ -1495,7 +1495,7 @@ yyreduce:
     break;
 
   case 35:
-#line 266 "sintatico.y" /* yacc.c:1646  */
+#line 271 "sintatico.y" /* yacc.c:1646  */
     {  
             tipos_compatives_inteiros();
             printf ("\tSOMA\n"); }
@@ -1503,7 +1503,7 @@ yyreduce:
     break;
 
   case 36:
-#line 271 "sintatico.y" /* yacc.c:1646  */
+#line 276 "sintatico.y" /* yacc.c:1646  */
     {  
             tipos_compatives_inteiros();
             printf ("\tSUBT\n"); }
@@ -1511,7 +1511,7 @@ yyreduce:
     break;
 
   case 37:
-#line 276 "sintatico.y" /* yacc.c:1646  */
+#line 281 "sintatico.y" /* yacc.c:1646  */
     { 
             tipos_compatives_logicos();       
             printf ("\tCMMA\n"); }
@@ -1519,7 +1519,7 @@ yyreduce:
     break;
 
   case 38:
-#line 280 "sintatico.y" /* yacc.c:1646  */
+#line 285 "sintatico.y" /* yacc.c:1646  */
     {         
             tipos_compatives_logicos();       
             printf ("\tCMME\n"); }
@@ -1527,7 +1527,7 @@ yyreduce:
     break;
 
   case 39:
-#line 284 "sintatico.y" /* yacc.c:1646  */
+#line 289 "sintatico.y" /* yacc.c:1646  */
     {         
             tipos_compatives_logicos();       
             printf ("\tCMIG\n"); }
@@ -1535,7 +1535,7 @@ yyreduce:
     break;
 
   case 40:
-#line 288 "sintatico.y" /* yacc.c:1646  */
+#line 293 "sintatico.y" /* yacc.c:1646  */
     {        
             tipos_compatives_logicos();       
             printf ("\tCONJ\n"); }
@@ -1543,7 +1543,7 @@ yyreduce:
     break;
 
   case 41:
-#line 292 "sintatico.y" /* yacc.c:1646  */
+#line 297 "sintatico.y" /* yacc.c:1646  */
     {        
             tipos_compatives_logicos();       
             printf ("\tDISJ\n"); }
@@ -1551,7 +1551,7 @@ yyreduce:
     break;
 
   case 43:
-#line 301 "sintatico.y" /* yacc.c:1646  */
+#line 306 "sintatico.y" /* yacc.c:1646  */
     {
 
             DESLOCA = busca_simbolo_hash(atomo, 'D');
@@ -1572,28 +1572,28 @@ yyreduce:
     break;
 
   case 44:
-#line 318 "sintatico.y" /* yacc.c:1646  */
+#line 323 "sintatico.y" /* yacc.c:1646  */
     { printf ("\tCRCT\t%s\n", atomo);
             empilha(INTEIRO); }
 #line 1579 "sintatico.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 321 "sintatico.y" /* yacc.c:1646  */
+#line 326 "sintatico.y" /* yacc.c:1646  */
     { printf ("\tCRCT\t1\n");
             empilha(LOGICO); }
 #line 1586 "sintatico.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 324 "sintatico.y" /* yacc.c:1646  */
+#line 329 "sintatico.y" /* yacc.c:1646  */
     { printf ("\tCRCT\t0\n");
             empilha(LOGICO); }
 #line 1593 "sintatico.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 327 "sintatico.y" /* yacc.c:1646  */
+#line 332 "sintatico.y" /* yacc.c:1646  */
     { printf ("\tNEGA\n"); 
             empilha(LOGICO); }
 #line 1600 "sintatico.c" /* yacc.c:1646  */
@@ -1828,7 +1828,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 332 "sintatico.y" /* yacc.c:1906  */
+#line 337 "sintatico.y" /* yacc.c:1906  */
 
 /*+--------------------------------------------------------+
   |          Corpo principal do programa COMPILADOR        |

@@ -1,19 +1,18 @@
+/*+-------------------------------------------------------------+
+ | UNIFAL – Universidade Federal de Alfenas.                    |
+ | BACHARELADO EM CIENCIA DA COMPUTACAO.                        |
+ | Atividade.: 1                                                |
+ | Disciplina: Compiladores                                     |
+ | Professor.: Luiz Eduardo da Silva                            |
+ | Aluno(s)..: Gabriela Moreira da Silva - 2011.1.08.038        |
+ | Jesper Bolling - 2014.1.08.039                               |
+ | Data......: 07/12/2014                                       |
+ +-------------------------------------------------------------+*/
+
 #include<stdio.h>
 #include<stdlib.h>
-//#include "listaEncadeada.h"
+#include "listaEncadeada.h"
 
-/*+-----------------------------------------+
-  |		ESTRUTURA DA LISTA ENCADEADA		|
-  +-----------------------------------------+
-*/
-
-
-typedef struct lista lista;
-
-struct lista{
-		int conteudo; // conteudo pode ser tipo, rotulo ou deslocamento
-	    lista *prox;
-};
 
 /* A função recebe um inteiro x e uma lista encadeada(com cabeça) e devolve
  * o dendereço de uma lista que contem x. Se não existir tal velula a

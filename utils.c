@@ -1,32 +1,31 @@
-
-/*---------------------------------------------------------
- *  Estruturas e Rotinas Utilitarias do Compilador
- *
- *  Por Luiz Eduardo da Silva
- *--------------------------------------------------------*/
+/*+-------------------------------------------------------------+
+ | UNIFAL – Universidade Federal de Alfenas.                    |
+ | BACHARELADO EM CIENCIA DA COMPUTACAO.                        |
+ | Atividade.: 1                                                |
+ | Disciplina: Compiladores                                     |
+ | Professor.: Luiz Eduardo da Silva                            |
+ | Aluno(s)..: Gabriela Moreira da Silva - 2011.1.08.038        |
+ | Jesper Bolling - 2014.1.08.039                               |
+ | Data......: 07/12/2014                                       |
+ +-------------------------------------------------------------+*/
 
 /*---------------------------------------------------------
  *  Limites das estruturas
  *--------------------------------------------------------*/
 
-#define TAM_TSIMB 100  /* Tamanho da tabela de simbolos */
-#define TAM_HASH 1000
 #include<stdarg.h>
 #include<string.h>
-#include "hashTable.c"
-#include "listaEncadeada.c"
+#include "hashTable.h"
+#include "listaEncadeada.h"
 
 /*---------------------------------------------------------
  *  Variaveis globais
  *--------------------------------------------------------*/
-int TOPO_TSIMB = 0; /* TOPO da tabela de simbolos */
-int TOPO_PSEMA = 0; /* TOPO da pilha semantica */
+int TAM_HASH = 30000; /* TOPO da tabela de simbolos */
 int ROTULO = 0; /* Proximo numero de rotulo */
 int CONTA_VARS = 0; /* Numero de variaveis */
-int POS_SIMB; /* Pos. na tabela de simbolos */
 int DESLOCA;
 int TIPO;
-int aux_tipo;
 int aux; /* variavel auxiliar */
 int numLinha = 0; /* numero da linha no programa */
 char atomo[30]; /* nome de um identif. ou numero */
@@ -51,15 +50,6 @@ void ERRO(char *msg, ...) {
 }
 
 /*---------------------------------------------------------
- *  Tabela de Simbolos
- *--------------------------------------------------------*/
-struct elem_tab_simbolos {
-    char id[30];
-    int desloca;
-    Tipo tipo;
-} TSIMB [TAM_TSIMB], elem_tab;
-
-/*---------------------------------------------------------
  *  Pilha Semantica
  *--------------------------------------------------------*/
 lista pilhaSem;
@@ -71,17 +61,14 @@ hash_table_t *my_table;
 
 /*---------------------------------------------------------
  * Funcao que BUSCA um simbolo na tabela de simbolos.       
- *      Retorna -1 se o simbolo nao esta' na tabela        
- *      Retorna i, onde i e' o indice do simbolo na tabela
- *                 se o simbolo esta' na tabela             
+ *  Caso exista na tabela de simbolos:    
+ *      Retorna o deslocamento ou tipo da variavel.        
+ *      Isso eh passado por parametro:
+ *              'D' para deslocamento 
+ *              'T' para tipo
+ *                  
  *--------------------------------------------------------*/
-int busca_simbolo(char *ident) {
-    int i = TOPO_TSIMB - 1;
-    for (; strcmp(TSIMB[i].id, ident) && i >= 0; i--);
-    return i;
-}
 
-//deletar esta funcao e usar a get da hashTable
 int busca_simbolo_hash(char *ident, char tipo_desloca){
 
     list_t *current_list;
@@ -89,10 +76,6 @@ int busca_simbolo_hash(char *ident, char tipo_desloca){
     if(current_list==NULL){
         return -1;
     }
-    //printf("ATOMO - %s\n",ident );
-    //printf("IDENTIFICADOR: %s\n",current_list->identificador);
-    //printf("TIPO: %d\n",current_list->tipo);
-    //printf("DESLOCAMENTO: %d\n\n", current_list->deslocamento);
     if(tipo_desloca == 'T'){
         return current_list->tipo;
     }else{
@@ -103,51 +86,13 @@ int busca_simbolo_hash(char *ident, char tipo_desloca){
 }
 
 /*---------------------------------------------------------
- * Funcao que INSERE um simbolo na tabela de simbolos.      
- *    Se ja' existe um simbolo com mesmo nome e mesmo nivel 
- *    uma mensagem de erro e' apresentada e o  programa  e' 
- *    interrompido.                                         
- *--------------------------------------------------------*/
-void insere_simbolo(struct elem_tab_simbolos *elem, Tipo tipo) {
-    if (TOPO_TSIMB == TAM_TSIMB) {
-        ERRO("OVERFLOW - tabela de simbolos");
-    } else {
-        POS_SIMB = busca_simbolo(elem->id);
-        if (POS_SIMB != -1) {
-            ERRO("Identificador [%s] duplicado", elem->id);
-        }
-        TSIMB [TOPO_TSIMB] = *elem;
-        TOPO_TSIMB++;
-    }
-}
-
-/*---------------------------------------------------------
- * Funcao de insercao de uma variavel na tabela de simbolos
- *---------------------------------------------------------*/
-void insere_variavel(char *ident, Tipo tipo) {
-    strcpy(elem_tab.id, ident);
-    elem_tab.desloca = CONTA_VARS;
-    elem_tab.tipo = tipo;
-    insere_simbolo(&elem_tab, tipo);
-}
-
-/*---------------------------------------------------------
  * Rotinas para manutencao da PILHA SEMANTICA              
  *--------------------------------------------------------*/
 void empilha(int n) {
-    /* if (TOPO_PSEMA == TAM_PSEMA) {
-        ERRO ("OVERFLOW - Pilha Semantica");
-     }
-     PSEMA[TOPO_PSEMA++] = n;*/
     insere_fim(&pilhaSem, n);
-    //exibeLista(&pilhaSem);
 }
 
 int desempilha() {
-    /* if (TOPO_PSEMA == 0) {
-        ERRO ("UNDERFLOW - Pilha Semantica");
-     }
-     return PSEMA[--TOPO_PSEMA];*/
     if (!listIsEmpty(&pilhaSem)){
         //exibeLista(&pilhaSem);
         return remove_fim(&pilhaSem);
@@ -164,10 +109,19 @@ void existeSimbolo( char *ident, int inseriu){
     }
 }
 
+/*---------------------------------------------------------
+ * Funcao que inicializa a tabela hash
+ *--------------------------------------------------------*/
 void inicializa(){
     my_table = hash_create(TAM_HASH);
 }
 
+/*---------------------------------------------------------
+ * Funcao verifica se os dois ultimos valores da pilha        
+ *  sao iguais, se forem, empilha o valor INTEIRO.                   
+ * Caso forem difentes o erro de imcompatibilidades de tipos
+ * eh exibido.
+ *--------------------------------------------------------*/
 void tipos_compatives_inteiros(){
 
         int inteiro1 = desempilha();
@@ -179,6 +133,12 @@ void tipos_compatives_inteiros(){
             ERRO("Tipos incompativeis!");          
 }    
 
+/*---------------------------------------------------------
+ * Funcao verifica se os dois ultimos valores da pilha        
+ *  sao iguais, se forem, empilha o valor LOGICO.
+ * Caso forem difentes o erro de imcompatibilidades de tipos
+ * eh exibido.                 
+ *--------------------------------------------------------*/
 void tipos_compatives_logicos(){
 
         int logico1 = desempilha();
@@ -189,12 +149,6 @@ void tipos_compatives_logicos(){
         }else
             ERRO("Tipos incompativeis!");          
 }   
-
-
-
-
-
-
 
 
 
