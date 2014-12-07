@@ -8,7 +8,7 @@
  | Jesper Bolling - 2014.1.08.039                               |
  | Data......: 07/12/2014                                       |
  +-------------------------------------------------------------+*/
- 
+
 #ifndef LISTAENCADEADA_H
 #define LISTAENCADEADA_H
 
@@ -27,7 +27,7 @@ struct lista{
 };
 
 lista *busca(int x, lista *ini);
-lista *busca_r(int x, lista *p);
+lista *busca_r(int x, lista *p);	
 lista *nova(int x);
 void insere(int x, lista *p);
 void remove_lista(lista *p);

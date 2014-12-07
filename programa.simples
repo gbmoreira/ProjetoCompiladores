@@ -1,13 +1,25 @@
 programa teste
-
-inteiro a b 
-
+	inteiro i j
+	logico sim
 inicio 
-  leia a 
-  leia b
-  enquanto nao (a > b) faca
-  	escreva a 
-	a<- a +1
-  fimenquanto
+	i<-1
+	enquanto nao(i<10) faca
+		j<-1
+		enquanto nao(j<sim) faca
+			escreva i + j
+			j<- j+1
+			
+			enquanto j<5 faca
+				se nao(sim) entao
+					escreva i+9
+				senao
+					escreva i+1
+				fimse
+			fimenquanto
+	
+
+		fimenquanto
+		i<-4
+	fimenquanto
 
 fimprograma

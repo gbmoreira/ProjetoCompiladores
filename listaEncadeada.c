@@ -8,11 +8,15 @@
  | Jesper Bolling - 2014.1.08.039                               |
  | Data......: 07/12/2014                                       |
  +-------------------------------------------------------------+*/
-
+ 
 #include<stdio.h>
 #include<stdlib.h>
 #include "listaEncadeada.h"
 
+/*+-----------------------------------------+
+  |		ESTRUTURA DA LISTA ENCADEADA		|
+  +-----------------------------------------+
+*/
 
 /* A função recebe um inteiro x e uma lista encadeada(com cabeça) e devolve
  * o dendereço de uma lista que contem x. Se não existir tal velula a

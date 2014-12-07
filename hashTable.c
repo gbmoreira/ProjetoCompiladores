@@ -132,8 +132,12 @@ int main( int argc, char **argv ) {
  	hash_table_t *my_table;
  	my_table = hash_create(size_of_table);
 	hash_set(my_table, "Gabi", 5, 1);
-  hash_set(my_table, "Gabizinha", 0,0);    
+  hash_set(my_table, "Gabizinha", 0,0);
+    
+    
 	//printf("retorno da funcao %s\n",retorno ); 
+
+
 
   list_t *current_list;
 
@@ -144,5 +148,8 @@ int main( int argc, char **argv ) {
     printf("IDENTIFICADOR: %s\n",current_list->identificador);
     printf("TIPO: %d\n",current_list->tipo);
     printf("DESLOCAMENTO: %d\n\n", current_list->deslocamento);
+
+
+
 	return 0;
 }*/

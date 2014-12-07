@@ -171,21 +171,24 @@ leitura
 
 escrita
       : T_ESCREVA expressao
-          { printf ("\tESCR\n"); }
+
+          { desempilha();
+            printf ("\tESCR\n"); }
       ;
 
 repeticao
       : T_ENQTO
-           {
+          {
+              printf ("L%d\tNADA\n", ++ROTULO);
+              empilha (ROTULO);
+          } 
+        expressao
+        {
              TIPO = desempilha();
-             if(TIPO==1){ // se for logico
-                printf ("L%d\tNADA\n", ++ROTULO);
-                empilha (ROTULO);
-             }else{ //se for
+             if(TIPO!=1) // se nao for logico
                 ERRO("Condicao precisa ser do tipo logico!");
-             }  
-           } 
-        expressao 
+               
+        }  
         T_FACA 
            {
              printf ("\tDSVF\tL%d\n",++ROTULO);
@@ -329,8 +332,14 @@ termo
           { printf ("\tCRCT\t0\n");
             empilha(LOGICO); } 
       | T_NAO termo
-          { printf ("\tNEGA\n"); 
-            empilha(LOGICO); }
+          { printf ("\tNEGA\n");
+            int tipo = desempilha();
+            if(tipo==1){
+              empilha(LOGICO);
+            }else{
+              ERRO("Nao eh permitido negar tipos inteiros");
+            } 
+          }
       | T_ABRE expressao T_FECHA
       ;
 
